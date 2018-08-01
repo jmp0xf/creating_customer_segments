@@ -12351,8 +12351,28 @@ div#notebook {
 <ul>
 <li>从上两图可以看出，特征 Grocery 和 Detergents_Paper，Grocery 和 Milk，Detergents_Paper 和 Milk 之间存在强相关。</li>
 <li>这验证了 <a href="#问题-2">问题 2</a> 中预测 Grocery 的相关性。</li>
-<li>这些特征明显不呈正态分布，而是类似截断正态分布（Truncated Normal Distribution）并向左偏倚。</li>
+<li><p>数据分布</p>
+<p>常见的分布除了正态分布还有偏态分布（<a href="http://durofy.com/tutorial-8-mode-merits-demerits/">图源</a>）：
+  <img src="img/skewed-distribution.png" alt="skewed-distribution"></p>
+
+<pre><code>                                      负偏态（左）、正态分布（中）、正偏态（右）
+
+</code></pre>
+<blockquote><p>特征数据分布看上去有点类似正偏态分布。</p>
+</blockquote>
+<p>以及截断正态分布（<a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">图源</a>）：</p>
+<p>当随机变量 X 区间为 [a, b]，并且在 [a, b] 区间内遵从均值为 μ，方差为 σ<sup>2</sup> 的正态分布时，其概率密度函数可表示如下：</p>
+<p>当 x 在 [a, b] 中时：
+  <img src="img/truncated-normal-distribution-formula.svg" alt="truncated-normal-distribution-formula"></p>
+<p>当 x 不在 [a, b] 中时，f=0。</p>
+<p><img src="img/truncated-normal-distribution-pdf.png" alt="truncated-normal-distribution-pdf"></p>
+
+<pre><code>                                      μ = −8, σ = 2（黑）；μ = 0, σ = 2（蓝）；
+                                      μ = 9, σ = 10（红）；μ = 0, σ = 10（橙）。</code></pre>
+</li>
 </ul>
+
+<pre><code>以此来看，特征数据分布明显用截断正态分布（Truncated Normal Distribution）描述更为准确。</code></pre>
 
 </div>
 </div>
@@ -14221,7 +14241,7 @@ Sample point 2 predicted to be in Cluster 0
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>回答：</strong></p>
-<p>对各聚类分类下的所有客户进行抽样，随机选取一小部分客户作为实验组，进行派送策略的改变。剩下的同类客户作为对照组。预先定义衡量积极反馈的单一指标，一段时间后，比较各分类下的实验组和对照组的平均指标，如果实验组的指标在统计意义上显著大于对照组，说明派送策略的改变对该类型客户是积极的，反之说明是无效或消极的。</p>
+<p>对各聚类分类下的所有客户进行抽样，随机选取一小部分客户作为实验组，进行派送策略的改变。剩下的同类客户作为对照组。预先定义衡量积极反馈的单一指标，一段时间后，比较各分类下的实验组和对照组的平均指标，如果实验组的指标在统计意义上显著优于对照组，说明派送策略的改变对该类型客户是积极的，反之说明是无效或消极的。</p>
 
 </div>
 </div>
@@ -14296,8 +14316,8 @@ Sample point 2 predicted to be in Cluster 0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>回答：</strong>
-从 <a href="#问题-10">问题 10</a> 中的 A/B Test 可以得到一批使用候选派送策略的样本以及对应效果指标，添加聚类标签为特征后作为训练数据，使用监督算法便可以对新顾客使用候选派送策略的效果进行预测，如果不够好，则使用原有派送策略。由上述代码的结果可以看出，聚类标签是具有较大信息量的特征，添加聚类标签可帮助监督算法进行学习。</p>
+<p><strong>回答：</strong></p>
+<p>如上述代码所示，选定待预测特征后，利用已有数据，添加聚类标签为特征后切分为训练数据和测试数据，使用监督算法学习模型后便可对新顾客的待预测特征进行预测。如果本没有待预测特征的数据，则需要首先对已有数据标注待预测特征。由上述代码的结果可以看出，聚类标签是具有较大信息量的特征，添加聚类标签可帮助监督算法进行学习。</p>
 
 </div>
 </div>
